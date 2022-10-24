@@ -15,7 +15,9 @@ public enum WeaponType
     phaser, // [NI] Shots that move in waves
     missile, // [NI] Homing missiles
     laser, // [NI] Damage over time
-    shield // Raise shieldLevel
+    shield, // Raise shieldLevel
+    heatray, // Focused blast
+    beam // split fire 
 }
 
 /// <summary>
@@ -136,6 +138,28 @@ public class Weapon : MonoBehaviour {
                 p.rigid.velocity = p.transform.rotation * vel;
                 p = MakeProjectile(); // Make another left projectile 
                 p.transform.rotation = Quaternion.AngleAxis(-20, Vector3.back);
+                p.rigid.velocity = p.transform.rotation * vel;
+                break;
+
+            case WeaponType.beam:
+                p = MakeProjectile(); // Make middle Projectile
+                p.rigid.velocity = vel;
+                p = MakeProjectile(); // Make right Projectile
+                p.transform.rotation = Quaternion.AngleAxis(12, Vector3.back);
+                p.rigid.velocity = p.transform.rotation * vel;
+                p = MakeProjectile(); // Make left Projectile
+                p.transform.rotation = Quaternion.AngleAxis(-12, Vector3.back);
+                p.rigid.velocity = p.transform.rotation * vel;
+                break;
+
+            case WeaponType.heatray:
+                p = MakeProjectile();
+                p.rigid.velocity = vel; //Middle Projectile
+                p = MakeProjectile(); // Make right Projectile
+                p.transform.rotation = Quaternion.AngleAxis(5, Vector3.back);
+                p.rigid.velocity = p.transform.rotation * vel;
+                p = MakeProjectile(); // Make left Projectile
+                p.transform.rotation = Quaternion.AngleAxis(-5, Vector3.back);
                 p.rigid.velocity = p.transform.rotation * vel;
                 break;
         }
